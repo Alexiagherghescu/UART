@@ -29,10 +29,13 @@ Primi 0L-->Citim dupa 7 tick-uri bitul de start-->Citim dupa 15 tick-uri de 8 or
 
 Starea idle
 - aici sta pana primeste un 0
-Starea de start
+  
+Starea de start  
+
 - numara 7 tickuri
 - daca inca este 0 dupa 7 tickuri intra in starea de receptie, inseamna ca bitul de start a fost receptionat corect
-- avem nevoie de un counter intern care numara tick urile , in cazul acestei stari pana la 7 , iar dupa aceea se reseteaza , il numesc tick_count
+- avem nevoie de un counter intern care numara tick urile , in cazul acestei stari pana la 7 , iar dupa aceea se reseteaza , il numesc tick_count  
+
 Starea de receptie
 - tick_count e resetat la 0 
 - aici avem nevoie de un counter care numara nr de biti de date , il numesc bit_count, acesta numara pana la 8, momentan, pana voi parametriza tot
@@ -41,6 +44,7 @@ Starea de receptie
 - cand bit_count==8 se intra in starea de stop
 - avem nevoie si de un registru de shiftare in care intra fiecare bit de la msb catre lsb
 - prima oara este transmis lsb catre msb al shiftreg
+
 Starea de stop
 - bit_count se reseteaza la 0 si cand tick_count ajunge iar la 15 se verifica daca bitul de stop e 1 se da un impuls de done
 -  in registrul de date de iesire nu se mai adauga nimic ,
