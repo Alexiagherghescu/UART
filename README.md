@@ -61,7 +61,18 @@ Am verificat conditiile initiale :
     rx<= 1'b0;   
   Tot sistemul a fost resetat .   
   S_tick este 0 initial si trebuie sa fie un impuls care se repeta in timpul citirii unui bit de 16 ori conform logicii modulului rx.   
-  Citirea incepe atunci cand rx este 0 , conditie setata in conditiile initiale.    
+  Citirea incepe atunci cand rx este 0 , conditie setata in conditiile initiale.   
+  Rezolvare:
+  rx trebuie sa fie 1 initial altfel primeste "incepe conversia" pe reset activ.    
+  Tinem reset activ si pe rx pe 1 pentru starea idle in care asteapta conversia pana cand resetul e inactiv.    
+ In codul initial s_tick era 1 la transmisia fiecarui bit. Nu se schimba , am tinut totul pe 1 ca sa treaca prin stari pentru ca in modulul lui rx intram in bucla cu starile doar pt s_tick e 1, deci a fost o confuzie deoarece trebuie sa numere pana la 15 pentru fiecare bit .  
+ Am nevoie de 16 tick uri pe perioada unui bit. Daca unul dureaza 104166ns am nevoie de un tick la fiecare 6500ns, fiecare trebuie sa dureze cat un impuls de ceas -> 10ns.   
+Vreau sa transmit 'a' din codul ascii dar codul meu e scris astfel incat se transmite lsb ul prima oara, iar eu in codul initial am transmis msb ul ceea ce ducea la o eroare la rx_dout.
+Las reset ul activ timp de 1000 ns si il dezactivez, iar dupa alte 2000 ns trec in rx valoarea 0 pt a incepe conversia.  
+Am lasat o perioada de 104166 intre fiecare bit transmis. s_tick se repeta de 16 ori in acest interval de timp intr un bloc separat .  
+Am pus si un bloc de stop pentru simulare .
+
+  
 
 
 
