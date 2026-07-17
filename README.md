@@ -55,13 +55,13 @@ Starea de stop
 Pentru a putea citi un bit din byte ul de date trebuie sa asteptam 104166 ns, pentru un BaudRate de 9600 si o frecventa de clock de 100MHz, unde perioada ceasului e 10ns.
 Problema:
 In simulare nu ruleaza asa cum trebuie , chiar daca se asteapta destul timp pentru citirea corecta. 
-Am verificat conditiile initiale :
-    reset<=1;
-    s_tick<=0;
-    rx<= 1'b0;
-  Tot sistemul a fost resetat .
-  S_tick este 0 initial si trebuie sa fie un impuls care se repeta in timpul citirii unui bit de 16 ori conform logicii modulului rx.
-  Citirea incepe atunci cand rx este 0 , conditie setata in conditiile initiale. 
+Am verificat conditiile initiale :   
+    reset<=1;   
+    s_tick<=0;   
+    rx<= 1'b0;   
+  Tot sistemul a fost resetat .   
+  S_tick este 0 initial si trebuie sa fie un impuls care se repeta in timpul citirii unui bit de 16 ori conform logicii modulului rx.   
+  Citirea incepe atunci cand rx este 0 , conditie setata in conditiile initiale.    
 
 
 
