@@ -72,6 +72,34 @@ Las reset ul activ timp de 1000 ns si il dezactivez, iar dupa alte 2000 ns trec 
 Am lasat o perioada de 104166 intre fiecare bit transmis. s_tick se repeta de 16 ori in acest interval de timp intr un bloc separat .  
 Am pus si un bloc de stop pentru simulare .
 
+# TX module  
+Am abordat metoda inversa a modulului RX. In cazul modulului TX avem un semnal de start, nu de done. In configuratia loopback RX trimite un semnal de done care este interpretat ca semnal de start pentru procesul de transmisie. Cand a fost receptionat tot setul de date, TX primeste semnal de start / enable pentru inceperea transmisiei.
+
+IDLE:  
+Pe tx avem 1L, pentru a mentine starea de IDLE (fata de modulul rx unde asteptam sa primim de la intrare , aici trebuie sa fortam iesirea,  deoarece transmisia se face asincron)   
+La semnalul de start acesta muta ce se afla la intrarea tx_datain (ce se afla la iesirea rx_dataout) intr_un registru intern denumit shiftreg, ca in cazul modulului RX si schimba starea in starea de START  
+
+
+START  
+Avem nevoie sa fortam un bit de start pentru iesirea tx : 0L si pentru a putea incepe transmisia bit cu bit.
+Dupa ce au trecut 15 batai de ceas , adica dupa ce am terminat transmiterea primului bit de start ,intram in starea de TRANSMISIE. 
+La RX am asteptat sa citim bitul la jumatate pentru sincronizare si sa nu avem probleme cu zgomotul, in acest caz asteptam 15 tick uri deoarece transmisia se realizeaza asincron si doar duce mai departe ceea ce a primit de la rx.   
+
+
+TRANSMISIE:
+In aceasta stare incepem transmiterea catre PC bit cu bit incepand cu LSB ul. Bit_count numara intern la ce bit am ajuns , si in tx este transpus bitul din shiftreg de pe pozitia specificata de bit_count. Cand bit_count ajunge la numarul maxim, adica la MSB , acesta se reseteaza la 0 si intra in starea de stop. 
+
+
+STOP: 
+In starea de Stop, transmisia tuturor bitilor de date este incheiata si trebuie sa fortam iesirea in 1 pentru a reveni in starea idle si pentru a semnaliza bitul de STOP(finalul transmisiei).
+
+
+
+
+
+
+
+
   
 
 
