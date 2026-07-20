@@ -1,14 +1,15 @@
-module UART
+module UART #( parameter BITS= 'd8)
 (
     input logic  rx,
     input logic clock,reset,
     output logic  tx
 );
-wire [7:0]  rx_dout;
+wire [BITS-1:0]  rx_dout;
 wire s_tick, rx_done;
 
 
-RX RX
+RX  #(.BITS('d8))
+RX
 (
     .rx(rx),
     .s_tick(s_tick),
@@ -18,7 +19,8 @@ RX RX
     .clock(clock)  
 );
 
-TX TX
+TX #(.BITS('d8))
+TX
 (
   .tx(tx),    
   .s_tick(s_tick),
@@ -28,7 +30,10 @@ TX TX
   .clock(clock)
 );
 
-BaudRate BaudRate
+BaudRate #(.BaudRate('d9600),
+          .freq ('d100000000),
+          .BITS('d8))
+ BaudRate
 (
     .done(s_tick),
     .reset(reset), 

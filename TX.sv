@@ -1,7 +1,7 @@
-module TX
+module TX #(parameter BITS='d8)
 (
     input logic s_tick, clock, reset, tx_start,
-    input logic [7:0] tx_din,
+    input logic [BITS-1:0] tx_din,
     output logic tx
 );
 
@@ -15,19 +15,17 @@ typedef enum logic [1:0] {
  
  state_t state=IDLE;
  
- 
- 
- logic [7:0] shiftreg = 'b0;
- logic [2:0] bit_count= 'b0;
- logic [3:0] tick_count= 'b0;
+ logic [BITS-1:0] shiftreg = '0;
+ logic [$clog2(BITS)-1:0] bit_count= '0;
+ logic [3:0] tick_count= '0;
  
  
 always @(posedge clock)
 begin
 if (reset==1) begin
-     shiftreg <= 0;
-     bit_count<= 0; 
-     tick_count<=0;
+     shiftreg <= '0;
+     bit_count<= '0; 
+     tick_count<= '0;
      state<=IDLE;
      tx<=1'b1;
  end
@@ -76,7 +74,7 @@ else begin
             if(tick_count==15)
                     begin
                     tick_count<=0;
-                    if(bit_count==7)
+                    if(bit_count==BITS-1)
                         begin
                             state<=STOP;
                             bit_count<=0;

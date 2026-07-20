@@ -1,8 +1,8 @@
-module RX
+module RX #(parameter BITS='d8)
 (
    input logic rx, 
    input logic s_tick, reset, clock ,
-   output logic [7:0] rx_dout,
+   output logic [BITS-1:0] rx_dout,
    output logic rx_done
 );
 typedef enum logic [1:0] {
@@ -15,20 +15,20 @@ typedef enum logic [1:0] {
  state_t state=IDLE;
  
  
- logic [7:0] shiftreg = 'b0;
- logic [2:0] bit_count= 'b0;
- logic [3:0] tick_count= 'b0;
+ logic [BITS-1:0] shiftreg = '0;
+ logic [$clog2(BITS)-1:0] bit_count= '0;
+ logic [3:0] tick_count= '0;
  
  
  always @(posedge clock) begin
  
  if (reset==1) begin
-     shiftreg <= 0;
-     bit_count<= 0; 
-     tick_count<=0;
+     shiftreg <= '0;
+     bit_count<= '0; 
+     tick_count<='0;
      state<=IDLE;
-     rx_dout<=0;
-     rx_done<=0;
+     rx_dout<='0;
+     rx_done<='0;
  end
  
  else begin
@@ -73,7 +73,8 @@ typedef enum logic [1:0] {
          shiftreg[bit_count]<= rx;
          
         begin
-            if(bit_count==7) begin
+            if(bit_count==BITS-1) 
+                             begin
                                 state<= STOP;
                                 bit_count<=0;
                                 tick_count<=0;
