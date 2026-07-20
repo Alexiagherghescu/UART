@@ -2,11 +2,16 @@
 
 module tb_rx();
 
+    localparam BITS =8;
+    localparam BaudRate= 9600;
+    localparam BitPeriod=1/BaudRate;
+    localparam TickWait= BitPeriod/16;
+    
     logic rx, s_tick, reset, clock;
     logic rx_done;
-    logic [7:0] rx_dout;
+    logic [BITS-1:0] rx_dout;
 
-    RX dut (
+    RX  #(.BITS(BITS))dut (
         .rx(rx),
         .s_tick(s_tick),
         .rx_dout(rx_dout),
@@ -26,7 +31,7 @@ module tb_rx();
     initial begin
         s_tick = 0;
         forever begin
-        #6500 s_tick = 1;
+        #(TickWait-10) s_tick = 1;
         #10  s_tick = 0;
         end
     end
@@ -41,16 +46,16 @@ module tb_rx();
         
         #2000; 
         rx = 0; 
-        #104166 rx = 1 ;
-        #104166 rx = 0; 
-        #104166  rx = 0;
-        #104166 rx = 0;
-        #104166  rx = 0;
-        #104166 rx = 1;
-        #104166 rx = 1;  
-        #104166 rx = 0; 
-        #104166 rx = 1;
-        #104166;
+        #(BitPeriod) rx = 1 ;
+        #(BitPeriod) rx = 0; 
+        #(BitPeriod)  rx = 0;
+        #(BitPeriod) rx = 0;
+        #(BitPeriod)  rx = 0;
+        #(BitPeriod) rx = 1;
+        #(BitPeriod) rx = 1;  
+        #(BitPeriod) rx = 0; 
+        #(BitPeriod) rx = 1;
+        #(BitPeriod);
         #50000;
         $finish; 
     end
