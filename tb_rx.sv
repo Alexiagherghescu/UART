@@ -4,7 +4,7 @@ module tb_rx();
 
     localparam BITS =8;
     localparam BaudRate= 9600;
-    localparam BitPeriod=1/BaudRate;
+    localparam BitPeriod=1000000000/BaudRate;
     localparam TickWait= BitPeriod/16;
     
     logic rx, s_tick, reset, clock;
