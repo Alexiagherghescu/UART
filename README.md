@@ -93,7 +93,17 @@ In aceasta stare incepem transmiterea catre PC bit cu bit incepand cu LSB ul. Bi
 STOP: 
 In starea de Stop, transmisia tuturor bitilor de date este incheiata si trebuie sa fortam iesirea in 1 pentru a reveni in starea idle si pentru a semnaliza bitul de STOP(finalul transmisiei).
 
-
+ # PARAMETRIZARE module 
+Am parametrizat modulele astfel incat sa poata fi transmise si receptionate date de diferite dimensiuni, avand in vedere si etapa a 2 a in care modulul va trebui sa primeasca date pe 16 biti de la counter.
+Parametrizate au fost : nr de biti, frecventa de ceas, baud rate ul , iar final value se adapteaza automat din interiorul modulului BaudRate .
+  # PARAMETRIZARE TETBENCH
+ Am modificat testbenchurile incat sa fie si ele parametrizabile definind niste parametrii locali
+    localparam BITS =8;
+    localparam BaudRate= 9600;
+    localparam BitPeriod=1000000000/BaudRate;
+    localparam TickWait= BitPeriod/16;
+    
+La inceput testbenchul nu functiona deoarece am pus BitPeriod= 1/BaudRate. Aceasta forma era gresita deoarece nu am tinut cont de unitatea de timp care este in nanosecunde, iar BaudRateul se masoara in bit/secunda. Dupa ce am transformat 1s in ns a functionat.
 
 
 
