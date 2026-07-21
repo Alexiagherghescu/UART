@@ -106,7 +106,7 @@ Parametrizate au fost : nr de biti, frecventa de ceas, baud rate ul , iar final 
 La inceput testbenchul nu functiona deoarece am pus BitPeriod= 1/BaudRate. Aceasta forma era gresita deoarece nu am tinut cont de unitatea de timp care este in nanosecunde, iar BaudRateul se masoara in bit/secunda. Dupa ce am transformat 1s in ns a functionat.
 
 
-## ETAPA A DOUA   
+# ETAPA A DOUA   
 Blocuri necesare: 
 - FIFO pe iesirea RX  
 - FIFO pe intratea TX    
