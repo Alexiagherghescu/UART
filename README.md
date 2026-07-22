@@ -103,8 +103,19 @@ Parametrizate au fost : nr de biti, frecventa de ceas, baud rate ul , iar final 
     localparam BitPeriod=1000000000/BaudRate;
     localparam TickWait= BitPeriod/16;
     
-La inceput testbenchul nu functiona deoarece am pus BitPeriod= 1/BaudRate. Aceasta forma era gresita deoarece nu am tinut cont de unitatea de timp care este in nanosecunde, iar BaudRateul se masoara in bit/secunda. Dupa ce am transformat 1s in ns a functionat.
+La inceput testbenchul nu functiona deoarece am pus BitPeriod= 1/BaudRate. Aceasta forma era gresita deoarece nu am tinut cont de unitatea de timp care este in nanosecunde, iar BaudRateul se masoara in bit/secunda. Dupa ce am transformat 1s in ns a functionat.  
 
+
+# ETAPA A 2 A
+Blocuri necesare: 
+- FIFO pe iesirea RX  
+- FIFO pe intratea TX    
+- Un meniu pentru interpretarea comenzilor
+- Un meniu de mesaje care urmeaza a fi afisate pe consola
+- Un convertor hexazecimal
+
+De asemenea, este de luat in calcul si faptul ca contorul trebuie sa se incrementeze/reseteze/decrementeze atat la comanda din consola cat si la comanda data fizic prin butoanele de pe placa.  
+Cea mai buna varianta ar fi , luand in calcul si cazul in care se transmite atat pe consola cat si prin buton o comanda , sa conectam printr-un XOR iesirile de la interpretorul de comenzi  si de la butoane pentru fiecare tip de comanda inainte de a ajunge la intrarea counterului. Daca ambele comenzi sunt 1 se asteapta o apasare valida . Din modulul counterului realizat anterior, este rezolvata si problema apasarii simultane a doua butoane diferite , prin urmare am acoperit toate cazurile. Acest interpretor de comenzi trebuie sa trimita semnale de enable catre : incrementarea contorului + mesaj de incrementare pe consola, decrementarea contorului + mesaj de decrementare pe consola, resetul contorului + mesaj de reset pe consola , mesaj de status a contorului, mesaj de help si mesaj de eroare atunci cand primeste de la tastatura alt caracter in afara de cele vizate in cerinta.
 
 
 
