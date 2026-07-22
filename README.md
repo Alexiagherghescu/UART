@@ -112,7 +112,7 @@ Blocuri necesare:
 - FIFO pe intratea TX    
 - Un meniu pentru interpretarea comenzilor
 - Un meniu de mesaje care urmeaza a fi afisate pe consola
-- Un convertor hexazecimal
+- Un convertor hexazecimal pentru afisarea pe terminal a valorii counterului
 
 De asemenea, este de luat in calcul si faptul ca contorul trebuie sa se incrementeze/reseteze/decrementeze atat la comanda din consola cat si la comanda data fizic prin butoanele de pe placa.  
 Cea mai buna varianta ar fi , luand in calcul si cazul in care se transmite atat pe consola cat si prin buton o comanda , sa conectam printr-un XOR iesirile de la interpretorul de comenzi  si de la butoane pentru fiecare tip de comanda inainte de a ajunge la intrarea counterului. Daca ambele comenzi sunt 1 se asteapta o apasare valida . Din modulul counterului realizat anterior, este rezolvata si problema apasarii simultane a doua butoane diferite , prin urmare am acoperit toate cazurile. Acest interpretor de comenzi trebuie sa trimita semnale de enable catre : incrementarea contorului + mesaj de incrementare pe consola, decrementarea contorului + mesaj de decrementare pe consola, resetul contorului + mesaj de reset pe consola , mesaj de status a contorului, mesaj de help si mesaj de eroare atunci cand primeste de la tastatura alt caracter in afara de cele vizate in cerinta.
@@ -128,6 +128,8 @@ Cea mai buna varianta ar fi , luand in calcul si cazul in care se transmite atat
   Pentru caracterele intre A si F care sunt corespunzatoare numerelor 10-16 in zecimal, valoarea in zecimal este 65, prin urmare vrem sa reprezentam:
  valoarea 10 -> corespunde caracterului A-> ne uitam in tabel la valoarea in zecimal a caracterului A-> este 65-> Peste numarul de 4 biti care reprezinta valoarea 10 trebuie sa mai adaugam 55 ca sa fie reprezentata valoarea A pe consola PUTTY.
 
+# Modulul de interpretare a comenzilor:  
+Acest modul primeste o comanda de la tastatura, in functie de comanda pirimita acesta trimite semnal catre counter pentru increm/decr/reset si catre meniul de mesaje pentru help/eroare/status_counter. Am folosit un bloc case iar in starea de default(daca nu se primeste niciuna din comenzile din meniu ) se va afisa un mesaj de eroare pe terminal. Dimensiunea comenzii a fost setata la 8 biti deoarece un caracter ASCII primit de la tastatura are 8 biti.
  
  
 
