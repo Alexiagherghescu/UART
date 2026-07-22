@@ -117,6 +117,20 @@ Blocuri necesare:
 De asemenea, este de luat in calcul si faptul ca contorul trebuie sa se incrementeze/reseteze/decrementeze atat la comanda din consola cat si la comanda data fizic prin butoanele de pe placa.  
 Cea mai buna varianta ar fi , luand in calcul si cazul in care se transmite atat pe consola cat si prin buton o comanda , sa conectam printr-un XOR iesirile de la interpretorul de comenzi  si de la butoane pentru fiecare tip de comanda inainte de a ajunge la intrarea counterului. Daca ambele comenzi sunt 1 se asteapta o apasare valida . Din modulul counterului realizat anterior, este rezolvata si problema apasarii simultane a doua butoane diferite , prin urmare am acoperit toate cazurile. Acest interpretor de comenzi trebuie sa trimita semnale de enable catre : incrementarea contorului + mesaj de incrementare pe consola, decrementarea contorului + mesaj de decrementare pe consola, resetul contorului + mesaj de reset pe consola , mesaj de status a contorului, mesaj de help si mesaj de eroare atunci cand primeste de la tastatura alt caracter in afara de cele vizate in cerinta.
 
+ # Modulul binary to hex:
+  Primesc o valoare de 16 b de la counter si vreau sa o transform in format hexa : 0xXXXX.  
+  Valoarea pe 16b a counterului o impart in grupuri de cate 4b care pot lua o valoare de la 0 la F fiecare. La final acestea trebuiesc concatenate pentru a forma valoarea care urmeaza a fi afisata pe ecran.
+  Am facut un modul intermediar numit "4bits_hex_val" in care prelucrez valoarea a 4 biti in valoarea in hexa. 
+  Am pus un semnal de reset activ pe 1 care reseteaza tot modulul, hex_val devenind 0 .
+  
+  Am folosit o structura if-else pentru a reprezenta valorile intre 0 si 9 tinand cont de tabelul ASCII unde caracterul ASCII 0 este echivalent cu valoarea 48 in zecimal, prin urmare diferenta intre cele doua e de 48 si trebuie adaugata peste orice numar intre 0 si 9.  
+  
+  Pentru caracterele intre A si F care sunt corespunzatoare numerelor 10-16 in zecimal, valoarea in zecimal este 65, prin urmare vrem sa reprezentam:
+ valoarea 10 -> corespunde caracterului A-> ne uitam in tabel la valoarea in zecimal a caracterului A-> este 65-> Peste numarul de 4 biti care reprezinta valoarea 10 trebuie sa mai adaugam 55 ca sa fie reprezentata valoarea A pe consola PUTTY.
+
+ 
+ 
+
 
 
 
