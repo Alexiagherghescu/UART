@@ -130,7 +130,13 @@ Cea mai buna varianta ar fi , luand in calcul si cazul in care se transmite atat
 
 # Modulul de interpretare a comenzilor:  
 Acest modul primeste o comanda de la tastatura, in functie de comanda pirimita acesta trimite semnal catre counter pentru increm/decr/reset si catre meniul de mesaje pentru help/eroare/status_counter. Am folosit un bloc case iar in starea de default(daca nu se primeste niciuna din comenzile din meniu ) se va afisa un mesaj de eroare pe terminal. Dimensiunea comenzii a fost setata la 8 biti deoarece un caracter ASCII primit de la tastatura are 8 biti.
- 
+
+# FIFO RX+TX:
+Am generat FIFO automat in Vivado.
+
+# Meniu transmitere Mesaje
+Acest modul primeste valoarea counterului in formatul ascii . Are nevoie de o iesire care sa activeze scrierea in modulul fifo. Acesta trimite un bit de 1 pentru en atunci cand se transmite un mesaj. Mesajul este gata de transmitere dupa starea IDLE cand intr un registru intern shiftreg a incarcat toate datele. In starea de transmisie se activeaza semnalul de en adica bitul de start devine 1 si se transmite caracter cu caracter catre fifo si modulul tx. Shift reg este shiftat la stanga , pentru a trimite prima litera, fata de cum functioneaza uartul care trimite prima oara lsb. Acest registru este shiftat pe parcurs ce un counter intern se decrementeaza pornind de la nr de litere pe care il are mesajul.
+
  
 
 
