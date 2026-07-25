@@ -138,7 +138,14 @@ Am generat FIFO automat in Vivado.
 Acest modul primeste valoarea counterului in formatul ascii . Are nevoie de o iesire care sa activeze scrierea in modulul fifo. Acesta trimite un bit de 1 pentru en atunci cand se transmite un mesaj. Mesajul este gata de transmitere dupa starea IDLE cand intr un registru intern shiftreg a incarcat toate datele. In starea de transmisie se activeaza semnalul de en adica bitul de start devine 1 si se transmite caracter cu caracter catre fifo si modulul tx. Shift reg este shiftat la stanga , pentru a trimite prima litera, fata de cum functioneaza uartul care trimite prima oara lsb. Acest registru este shiftat pe parcurs ce un counter intern se decrementeaza pornind de la nr de litere pe care il are mesajul.
 
  
-
+Am adaugat un semnal de data_valid modulului care actioneaza ca un semnal de write en pentru fifo. Cand acesta devine 1 , caracterul este scris in fifo urmand a fi transmis mai departe catre TX.
+In modulul top level ordinea este urmatoarea : 
+- Caracterul vine de la PC catre RX bit cu bit  
+- RX trimite catre FIFO mesajul , unde este stocat pana primeste un semnal de enable pentru a transmite comanda catre Interpretorul de Comanda  
+- Acesta trimite semnal catre Counter si catre Interpretorul de mesaje.
+- Valoarea din counter care iese pe leds este conectata la modulul ASCII de conversie, iar iesirea acestuia merege mai departe catre interpretorul de mesaje pentru a afisa valoarea actualizata a counterului .
+- Acesta trmite mesajul catre un fifo care transmite tot caracter cu caracter catre modulul TX
+- Modulul TX transmite bit cu bit inapoi catre PC si afiseaza mesajul
 
 
 
