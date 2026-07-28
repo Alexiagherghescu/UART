@@ -147,13 +147,13 @@ In modulul top level ordinea este urmatoarea :
 - Acesta trmite mesajul catre un fifo care transmite tot caracter cu caracter catre modulul TX
 - Modulul TX transmite bit cu bit inapoi catre PC si afiseaza mesajul
 
-  In realizarea modulului TOP am intampinat probleme șla concectarea celor doua FIFO uri deoarece logica modulelor nu a fost facuta initial pentru interaciunea cu FIFO , ci a fost facuta individual.
+  In realizarea modulului TOP am intampinat probleme la concectarea celor doua FIFO uri deoarece logica modulelor nu a fost facuta initial pentru interactiunea cu FIFO , ci a fost facuta individual.
   Problemele pe care am reusit sa le rezolv au fost urmatoarele
   - modulul meu FSM mesaj avea un semnal de tx_done care atunci cand era activ , adica au fost transmisi primii 8 biti, FSMul ne intorcea in starea de MESAJ pentru a prelua urmatorii biti care urmeaza transmisi pe iesirea data. Acest semnal nu este necesar deoarece fix aceasta era functionalitatea bufferului, cat timp FIFO nu este full se pot scrie caractere , fara a astepta transmisia acestora, asa ca am inlocuit tx_done cu un semnal fifo_full pentru a semnaliza ca transmiterea unui nou caracter catre fifo nu este posibila, si stam in starea de transmisie pana FIFO se elibereaza si putem prelucra un nou caracter.
   - de asemenea si logic modulelor tx si rx a fost modificata:
-                - modulul RX genera un semnal de done care dupa logica initiala a codului meu ar fi scris de mai multe ori aceeasi litera in fifo deoarece acesta                    actioneaza ca semnal de wr_enable pentru fifo_rx.
+                - modulul RX genera un semnal de done care dupa logica initiala a codului meu ar fi scris de mai multe ori aceeasi litera in fifo deoarece acesta actioneaza ca semnal de wr_enable pentru fifo_rx.
                 - modulul Command genereaza semnalul de read_enable pentru fifo_rx, cat timp acesta nu e empty read_en<=1;
-                - modulului TX i am adaugat un semnal tx_done pentru a putea semnaliza catre fifo ca e timpul pentru o noua citire din memorie. acest semnal                         actioneaza ca semnal de read_enable pentru fifo, iar semnalul de write_en este dat de data_valid.
+                - modulului TX i am adaugat un semnal tx_done pentru a putea semnaliza catre fifo ca e timpul pentru o noua citire din memorie. acest semnal   actioneaza ca semnal de read_enable pentru fifo, iar semnalul de write_en este dat de data_valid.
 
 
 
