@@ -2,7 +2,7 @@ module TX #(parameter BITS='d8)
 (
     input logic s_tick, clock, reset, tx_start,
     input logic [BITS-1:0] tx_din,
-    output logic tx
+    output logic tx, tx_done
 );
 
 
@@ -22,6 +22,7 @@ typedef enum logic [1:0] {
  
 always @(posedge clock)
 begin
+tx_done<=1'b0;
 if (reset==1) begin
      shiftreg <= '0;
      bit_count<= '0; 
@@ -92,6 +93,7 @@ else begin
             end
         end
        end 
+       
        STOP: 
        begin
        tx<=1'b1;
@@ -101,6 +103,7 @@ else begin
                     begin
                     state<=IDLE;
                     tick_count<=0;
+                    tx_done<=1'b1;
                     end
                  else begin
                  tick_count<=tick_count+1;

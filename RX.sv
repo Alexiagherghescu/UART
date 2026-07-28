@@ -32,12 +32,13 @@ typedef enum logic [1:0] {
  end
  
  else begin
+ rx_done<=0;
     if (s_tick==1)
         begin
         case(state)
         
         IDLE: begin
-        rx_done<=0;
+        
         if (rx==0) begin
                     state<=START;
                     tick_count<=0;
@@ -101,7 +102,6 @@ typedef enum logic [1:0] {
                          state<=IDLE;
                      end 
                   else begin
-                       rx_done<=0;
                        rx_dout<=0;
                        state<= IDLE;  
                        end                   

@@ -1,8 +1,9 @@
 module FSM_mesja
 (
-    input logic tx_done, message_inc, message_dec, message_reset, message_help,message_error, message_status, clock, reset,
+    input logic full, message_inc, message_dec, message_reset, message_help,message_error, message_status, clock, reset,
     input logic [31:0] ascii_val,
-    output logic [7:0] data,
+    output logic [7:0]  data,
+    output logic        data_valid,
     output logic start_bit
 );
 
@@ -23,8 +24,9 @@ always @(posedge clock)
 begin
     if(reset==1)
         begin
-            data<=0;
-            state<=START;
+            data        <= 0;
+            data_valid  <= 1'b0;
+            state       <= START;
         end
     else 
     begin
@@ -88,7 +90,8 @@ begin
             begin
                 start_bit<=1;
                 counter_litera<=counter_litera-1;
-                data<=shiftreg[599:592];
+                data        <=shiftreg[599:592];
+                data_valid  <= 1'b1;
                 shiftreg <=shiftreg<<8;
                 state<=TRANSMISIE;
             end
@@ -97,8 +100,9 @@ begin
            
            TRANSMISIE:
            begin
-             start_bit<=0;
-             if(tx_done==1)
+             data_valid  <= 1'b0;
+             start_bit   <= 0;
+             if(full==0)
              begin
                 state<=MESAJ;
              end

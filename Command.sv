@@ -1,11 +1,13 @@
 module command
 (
     input logic [7:0] command,
+    input logic empty_fifo, 
+    output logic read_en,
     input logic reset, clock,
     output logic signal_inc, signal_dec, signal_reset, 
     output logic message_inc, message_dec, message_reset, message_help,message_error, message_status
 );
-
+logic data_valid; 
 always @(posedge clock)
 begin
     if(reset==1)
@@ -31,7 +33,18 @@ begin
             message_help<=0;
             message_error<=0; 
             message_status<=0; 
-        
+            
+            if(empty_fifo==0 && read_en==0)
+                begin
+                    read_en<=1'b1;
+                end 
+           else begin
+                    read_en<=1'b0;
+                end
+          data_valid<=read_en;      
+                
+        if (data_valid==1'b1)
+        begin
         case(command)
         
         "I","i" : 
@@ -67,6 +80,7 @@ begin
            end
            
         endcase
+        end
         end
 
 end
