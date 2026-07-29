@@ -115,9 +115,9 @@ binary_to_ascii
 FSM_mesja
 (
   .full(full_tx), 
-  .message_inc(message_inc), 
-  .message_dec(message_dec), 
-  .message_reset(message_reset), 
+  .message_inc(w1), 
+  .message_dec(w2), 
+  .message_reset(w3), 
   .message_help(message_help),
   .message_error(message_error),
   .message_status(message_status), 
@@ -153,5 +153,7 @@ TX
   .reset(reset),        
   .clock(clock)         
 );   
+                                           
+
                                            
 endmodule

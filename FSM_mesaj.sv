@@ -38,6 +38,7 @@ begin
                    begin
                        shiftreg<={"RESET|Counter: 0x", ascii_val, "\r\n", 416'd0};
                        counter_litera<=23;
+                        state<=MESAJ ;
                    end
                    
                 else begin
@@ -70,11 +71,14 @@ begin
                                           shiftreg<={"STATUS: S/s","\r\n", "INC Counter: I/i","\r\n", "DEC Counter: D/d","\r\n", "RESET Counter: R/r","\r\n","HELP:?"}  ;
                                           counter_litera<=75;
                                         end
-                                       else 
+                                       else if(message_error==1)
                                        begin
                                             state<=MESAJ;
                                             shiftreg<={"ERROR: Unknown","\r\n", 472'd0 };
                                             counter_litera<=16;
+                                       end
+                                       else begin
+                                       state<=START;
                                        end
                                     end
                                  end
