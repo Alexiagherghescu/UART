@@ -155,6 +155,7 @@ In modulul top level ordinea este urmatoarea :
                 - modulul Command genereaza semnalul de read_enable pentru fifo_rx, cat timp acesta nu e empty read_en<=1;
                 - modulului TX i am adaugat un semnal tx_done pentru a putea semnaliza catre fifo ca e timpul pentru o noua citire din memorie. acest semnal   actioneaza ca semnal de read_enable pentru fifo, iar semnalul de write_en este dat de data_valid.
 
+Informatii ILA - VIVADO
 
 
   
